@@ -86,6 +86,7 @@ class SgLatestPublishModel(ShotgunModel):
         """
 
         app = sgtk.platform.current_bundle()
+        custom_publishedFile_entity_field = app.get_setting("custom_publishedFile_entity_field", [])
 
         if item is None:
             # nothing selected in the treeview
@@ -164,7 +165,7 @@ class SgLatestPublishModel(ShotgunModel):
                     else:
                         sg_filters = [
                             [
-                                "entity",
+                                custom_publishedFile_entity_field,
                                 "is",
                                 {"type": sg_data["type"], "id": sg_data["id"]},
                             ]
@@ -180,7 +181,7 @@ class SgLatestPublishModel(ShotgunModel):
                     ):
                         # this is an intermediate node like a sequence or an asset which
                         # can have publishes of its own associated
-                        sg_filters = [["entity", "is", field_value]]
+                        sg_filters = [[custom_publishedFile_entity_field, "is", field_value]]
 
                     else:
                         # this is an intermediate node like status or asset type which does not
